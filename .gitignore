@@ -10,3 +10,7 @@ playwright-report/
 test-results/
 *.log
 .DS_Store
+
+apps/web/src/fixtures/
+apps/web/test-results/
+apps/web/playwright-report/

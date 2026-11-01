@@ -1,0 +1,29 @@
+{
+  "name": "@settled/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "node scripts/copy-fixtures.mjs",
+    "dev": "next dev -p 3910",
+    "prebuild": "node scripts/copy-fixtures.mjs",
+    "build": "next build",
+    "start": "next start -p 3910",
+    "rpc-stub": "node scripts/rpc-stub.mjs",
+    "e2e": "playwright test",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "next": "15.4.6",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.54.2",
+    "@types/node": "22.16.5",
+    "@types/react": "19.1.9",
+    "@types/react-dom": "19.1.7",
+    "typescript": "5.8.3"
+  }
+}
