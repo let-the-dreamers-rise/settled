@@ -17,6 +17,9 @@ async fn new_key_forwards_tokens() -> Result<()> {
     assert!(r.is_success(), "{:?}", r.failures());
     assert_eq!(used(&r), AMOUNT);
     assert!(has_log(&r, "settled:forwarded record=1"));
+    // 1Click ToS s.4.1(h): the forwarded transfer names the originating payer, unmasked.
+    let memo = format!("\"memo\":\"settled:payer={} key=k1\"", env.alice.id());
+    assert!(has_log(&r, &memo), "forward memo must name the payer: {:?}", all_logs(&r));
     assert_eq!(balance(&env.usdc, env.alice.id().as_str()).await?, before - AMOUNT);
     assert_eq!(balance(&env.usdc, env.deposit.id().as_str()).await?, AMOUNT);
     let rec = record(&env, env.alice.id().as_str(), "k1").await?;

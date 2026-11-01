@@ -144,7 +144,8 @@ impl Contract {
         amount: U128,
         pay: PayMsg,
     ) -> near_sdk::Promise {
-        let memo = Some(format!("settled:{}", pay.key));
+        // 1Click ToS s.4.1(h): the transfer names the originating payer, unmasked.
+        let memo = Some(format!("settled:payer={} key={}", sender, pay.key));
         let transfer = ext_ft_core::ext(token.clone())
             .with_attached_deposit(ONE_YOCTO)
             .with_static_gas(GAS_FT_TRANSFER)
