@@ -13,7 +13,7 @@ Built for NEAR HACKATHON (tracks: agents, security, business). Solo builder: Ash
 | Golden path on testnet | Run on 2026-11-01: payment [`23o4ggKU...`](https://testnet.nearblocks.io/txns/23o4ggKUATqDE6hCbKbf4Zcy2iPsW9iCqxP6z3LfDerv) wrote record #1, the watcher resolved it SETTLED, and the forced retry was refused and refunded in [`5z5ZvZW1...`](https://testnet.nearblocks.io/txns/5z5ZvZW1KKZZHoT9dymW8ERBQTfCowvvzj815zbueLtn). 1Click was MOCK |
 | Funds-free 1Click probe (tokens, dry quote) | Run on 2026-11-01, both pass (`docs/probe-results.md`) |
 | Mainnet | Not deployed and not planned for the hackathon: no funds. 1Click has no testnet, so whether 1Click accepts a deposit sent by a contract is **untested** |
-| Hosted site | Not deployed yet |
+| Hosted site | Live at [settled-near.vercel.app](https://settled-near.vercel.app): the receipt page and usage meter read the testnet contract; the console replays the recorded testnet run behind a DEMO MODE banner |
 
 Why testnet and MOCK 1Click: the builder has no funds for mainnet, and 1Click runs only on mainnet. Everything except the 1Click swap is real and public on testnet. The first check once funds exist (about USD 5): one real 2 USDC payment through a mainnet copy of the contract, to see whether 1Click credits a deposit whose sender is a contract.
 
