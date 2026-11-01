@@ -1,0 +1,22 @@
+{
+  "name": "@settled/e2e-sandbox",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "e2e": "tsx src/run.ts",
+    "pay": "tsx src/run.ts --only-pay",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@settled/sdk": "workspace:*",
+    "@settled/mock-1click": "workspace:*",
+    "@settled/mcp": "workspace:*",
+    "@settled/cli": "workspace:*",
+    "near-workspaces": "5.0.0"
+  },
+  "devDependencies": {
+    "typescript": "5.8.3",
+    "@types/node": "22.16.5"
+  }
+}

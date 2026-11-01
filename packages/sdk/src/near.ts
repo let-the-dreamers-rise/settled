@@ -47,7 +47,8 @@ export function decodeOutcome(o: Outcome): CallResult {
 export async function nearClient(cfg: NearClientConfig): Promise<ChainClient> {
   const keyStore = new keyStores.InMemoryKeyStore();
   await keyStore.setKey(cfg.networkId, cfg.accountId, KeyPair.fromString(cfg.privateKey as never));
-  const near = await connect({ networkId: cfg.networkId, nodeUrl: cfg.nodeUrl, keyStore });
+  // logger: false stops near-api-js printing every receipt to stdout (the CLI owns stdout).
+  const near = await connect({ networkId: cfg.networkId, nodeUrl: cfg.nodeUrl, keyStore, logger: false } as never);
   const account = await near.account(cfg.accountId);
   return {
     accountId: cfg.accountId,

@@ -1,0 +1,98 @@
+{
+  "schema": "settled-run/1",
+  "source": "sandbox with mock-1click",
+  "label": "demo data: sandbox with MOCK 1Click",
+  "recorded_at": "2026-11-01T08:43:08.395Z",
+  "network": "sandbox",
+  "explorer": null,
+  "contract_id": "settled.test.near",
+  "payer": "payer.test.near",
+  "key": "invoice-4417",
+  "amount": "2",
+  "symbol": "USDC",
+  "destination_chain": "Base",
+  "steps": [
+    {
+      "id": "record",
+      "label": "record #1 written on NEAR",
+      "tx_hash": "8q3wYHimp8Hwnhp2XjaubeF6zg84X91UPMvbJRE5KqFL",
+      "at": "2026-11-01T08:43:03.221Z"
+    },
+    {
+      "id": "forwarded",
+      "label": "contract forwarded 2 USDC to deposit address deposit-a.test.near",
+      "tx_hash": "8q3wYHimp8Hwnhp2XjaubeF6zg84X91UPMvbJRE5KqFL",
+      "at": "2026-11-01T08:43:03.221Z"
+    },
+    {
+      "id": "1click",
+      "label": "MOCK 1Click reports SUCCESS",
+      "at": "2026-11-01T08:43:04.765Z"
+    },
+    {
+      "id": "settled",
+      "label": "SETTLED: 2 USDC on Base, tx MOCK-dest-44c3a5cd0dd745c6",
+      "at": "2026-11-01T08:43:04.773Z"
+    }
+  ],
+  "refusal": {
+    "reason": "DUPLICATE_KEY",
+    "tx_hash": "2TczGzosDhShumCSXdbF5PfroWq5VtwjbbyWs5XK8XD4",
+    "refunded": "2"
+  },
+  "mcp": {
+    "request": {
+      "key": "invoice-4417"
+    },
+    "response": {
+      "sent": false,
+      "status": "ALREADY_RECORDED",
+      "record": 1,
+      "outcome": "SETTLED"
+    }
+  },
+  "record": {
+    "number": 1,
+    "sender": "payer.test.near",
+    "key": "invoice-4417",
+    "token": "usdc.test.near",
+    "amount": "2000000",
+    "quote_hash": "3908b2d1556f5125eabc7713b440cffe5c779ceb627e972452da24520cba179f",
+    "deposit_address": "deposit-a.test.near",
+    "deadline_ms": 1793523178662,
+    "forward": "FORWARDED",
+    "outcome": "SETTLED",
+    "refused_count": 1,
+    "created_at_ms": 1793522580482,
+    "resolved_at_ms": 1793522584131,
+    "evidence": "{\"status\":\"SUCCESS\",\"updatedAt\":\"2026-11-01T08:43:03.241Z\",\"destinationTx\":[\"MOCK-dest-44c3a5cd0dd745c6\"],\"refundedAmount\":\"0\",\"mock\":true}"
+  },
+  "stats": {
+    "records_created": 1,
+    "refusals": 1,
+    "volume": [
+      {
+        "token": "usdc.test.near",
+        "forwarded": "2000000"
+      }
+    ]
+  },
+  "cli_lines": [
+    "MOCK quote received: deposit address deposit-a.test.near",
+    "preflight OK (refundTo = payer, assets, recipient, amount, deadline)",
+    "ft_transfer_call tx 8q3wYHimp8Hwnhp2XjaubeF6zg84X91UPMvbJRE5KqFL",
+    "record #1 written on NEAR",
+    "contract forwarded 2 USDC to 1Click deposit address deposit-a.test.near in tx 8q3wYHimp8Hwnhp2XjaubeF6zg84X91UPMvbJRE5KqFL",
+    "PENDING",
+    "MOCK record #1 invoice-4417: SUCCESS -> SETTLED (written)",
+    "SETTLED: 2 USDC on Base, tx MOCK-dest-44c3a5cd0dd745c6",
+    "key invoice-4417 is already record #1 (SETTLED); nothing sent",
+    "ALREADY RECORDED: key invoice-4417 is record #1 (SETTLED); nothing sent.",
+    "reusing stored quote (no new quote request)",
+    "preflight OK (refundTo = payer, assets, recipient, amount, deadline)",
+    "ft_transfer_call tx 2TczGzosDhShumCSXdbF5PfroWq5VtwjbbyWs5XK8XD4",
+    "REFUSED: key invoice-4417 is record #1 (SETTLED), reason DUPLICATE_KEY. Contract returned 2 USDC in tx 2TczGzosDhShumCSXdbF5PfroWq5VtwjbbyWs5XK8XD4; nothing sent to 1Click.",
+    "key invoice-4417 is already record #1 (SETTLED); nothing sent",
+    "scripted agent settled_pay -> {\"sent\":false,\"status\":\"ALREADY_RECORDED\",\"record\":1,\"outcome\":\"SETTLED\"}"
+  ]
+}

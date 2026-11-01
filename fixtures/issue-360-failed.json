@@ -1,0 +1,16 @@
+{
+  "schema": "settled-outcome-example/1",
+  "label": "recorded from near/intents#360, reporter's data, not produced by us",
+  "source_url": "https://github.com/near/intents/issues/360",
+  "caption": "records this outcome; cannot recover it",
+  "note": "Response shape as quoted in the public issue (opened 2026-09-28). Amounts and addresses are omitted; only the fields that decide the outcome are kept.",
+  "status_response": {
+    "status": "FAILED",
+    "swapDetails": {
+      "refundedAmount": "0",
+      "intentHashes": [],
+      "refundReason": null
+    }
+  },
+  "mapped_outcome": "FAILED_NO_REFUND"
+}
