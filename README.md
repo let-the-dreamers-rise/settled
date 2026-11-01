@@ -8,11 +8,14 @@ Built for NEAR HACKATHON (tracks: agents, security, business). Solo builder: Ash
 
 | Part | State |
 | --- | --- |
-| Contract, SDK, watcher, CLI, MCP server, web app | Built; all tests below pass locally (sandbox and mocks) |
+| Contract, SDK, watcher, CLI, MCP server, web app | Built; all tests below pass |
+| Contract on NEAR testnet | Deployed: [`settled.settled-demo-53d4c7c8.testnet`](https://testnet.nearblocks.io/address/settled.settled-demo-53d4c7c8.testnet), with the test token [`usdc.settled-demo-53d4c7c8.testnet`](https://testnet.nearblocks.io/address/usdc.settled-demo-53d4c7c8.testnet) (mock-ft, no value). Account ids in `deploy/testnet.json` |
+| Golden path on testnet | Run on 2026-11-01: payment [`23o4ggKU...`](https://testnet.nearblocks.io/txns/23o4ggKUATqDE6hCbKbf4Zcy2iPsW9iCqxP6z3LfDerv) wrote record #1, the watcher resolved it SETTLED, and the forced retry was refused and refunded in [`5z5ZvZW1...`](https://testnet.nearblocks.io/txns/5z5ZvZW1KKZZHoT9dymW8ERBQTfCowvvzj815zbueLtn). 1Click was MOCK |
 | Funds-free 1Click probe (tokens, dry quote) | Run on 2026-11-01, both pass (`docs/probe-results.md`) |
-| Mainnet contract | Not deployed. Contract: `[PLACEHOLDER: contract account id]`, explorer link added at M6 |
-| Mainnet recorded run (Part A of the demo) | Not run; needs a funded account |
-| Hosted site | Not deployed |
+| Mainnet | Not deployed and not planned for the hackathon: no funds. 1Click has no testnet, so whether 1Click accepts a deposit sent by a contract is **untested** |
+| Hosted site | Not deployed yet |
+
+Why testnet and MOCK 1Click: the builder has no funds for mainnet, and 1Click runs only on mainnet. Everything except the 1Click swap is real and public on testnet. The first check once funds exist (about USD 5): one real 2 USDC payment through a mainnet copy of the contract, to see whether 1Click credits a deposit whose sender is a contract.
 
 ## How it works
 
@@ -65,17 +68,30 @@ pnpm e2e
 
 Optional, needs network but no funds: `pnpm probe:quote` (lists 1Click tokens and asks for a dry quote, which has no deposit address).
 
+### On NEAR testnet (free)
+
+```bash
+pnpm testnet:setup
+```
+
+```bash
+pnpm e2e:testnet
+```
+
+`testnet:setup` creates a root account from the public testnet faucet, sub-accounts for the contract, token, payer, watcher and three deposit accounts, deploys both contracts and mints test USDC. Keys are written to `~/.settled-testnet/credentials.json` (mode 0600, outside the repo) and never printed. `e2e:testnet` runs the same golden path as the sandbox against testnet, with MOCK 1Click running locally, and writes `fixtures/run-testnet-001.json`. A key can be used once per contract, so a second run needs `SETTLED_DEMO_KEY=invoice-4418`. `E2E_LIVE=1 pnpm e2e` runs the browser tests against the testnet contract instead of the stub.
+
 ## What is real, mocked and planned
 
 | Component | Status |
 | --- | --- |
-| `settled` contract (Rust, near-sdk 5.6.0) | Real. Sandbox-tested; mainnet deploy pending |
-| Token in sandbox tests | Mocked: `mock-ft`, a NEP-141 with open mint, in this repo |
-| 1Click quote, deposit, status | Real client code; in the sandbox run it talks to `mock-1click` (lines prefixed `MOCK`). Real calls happen only in the mainnet run, which has not happened yet |
+| `settled` contract (Rust, near-sdk 5.6.0) | Real. Deployed on NEAR testnet; sandbox-tested. Not on mainnet |
+| Token | Mocked: `mock-ft`, a NEP-141 with open mint, in this repo; deployed on testnet as test USDC with no value |
+| 1Click quote, deposit, status | Real client code (the funds-free probe calls the real API). In the sandbox and testnet runs it talks to `mock-1click` (lines prefixed `MOCK`), because 1Click has no testnet. No real swap has happened |
+| Deposit addresses | On testnet, plain accounts we created and registered on the test token, handed out by MOCK 1Click |
 | Watcher, SDK, CLI | Real, run locally; the watcher uses its own key |
 | MCP server | Real tools; the calling agent in the demo is a script |
-| Web receipt page and usage meter | Real chain reads (`get_record`, `get_stats`); in Playwright they read the local RPC stub |
-| Web console | Replay of a recorded run, behind a DEMO MODE banner that names its source. Today the source is the sandbox run with MOCK 1Click |
+| Web receipt page and usage meter | Real chain reads (`get_record`, `get_stats`) of the testnet contract through FastNEAR's public RPC; in Playwright they read a local RPC stub unless `E2E_LIVE=1` |
+| Web console | Replay of the recorded testnet run, behind a DEMO MODE banner that names its source; its transaction links open the testnet explorer |
 | REFUNDED outcome | Not demonstrated. The contract forwards exactly the quoted amount, so a refund cannot be produced on purpose |
 | INCOMPLETE outcome | Mapper unit test only |
 | FAILED_NO_REFUND outcome | Shape recorded from [near/intents#360](https://github.com/near/intents/issues/360), labelled as the reporter's data. Settled records this outcome; it cannot recover it |
@@ -93,7 +109,7 @@ Full reading: [`docs/tos-reading.md`](docs/tos-reading.md). Verdict: unclear.
 
 - s.4.1(a), no standalone wrapper or gateway for third parties: nothing we operate calls 1Click for anyone else; the SDK, CLI and watcher run under each payer's own relationship with 1Click, and the hosted site never calls 1Click.
 - s.4.1(e), no API data kept past 24 hours except static transaction records: the local quote store expires entries after 24 hours; the on-chain record keeps transaction-history fields only.
-- s.4.1(h), the originating wallet must be visible and no intermediary wallet may obfuscate it: the Settled contract is the sender of the deposit, so this is the main open question. The forward memo names the payer, `refundTo` is the payer, and the payer's own transaction is in the same public receipt chain. We will ask 1Click in writing before the mainnet run.
+- s.4.1(h), the originating wallet must be visible and no intermediary wallet may obfuscate it: the Settled contract is the sender of the deposit, so this is the main open question for any mainnet use. The forward memo names the payer, `refundTo` is the payer, and the payer's own transaction is in the same public receipt chain. Nothing in this hackathon build sends anything to the real 1Click; we will ask 1Click in writing before any mainnet use.
 
 Disclosures (s.4.1(i)): 1Click (NEAR Intents) is a third-party cross-chain swap service; Settled does not operate it and guarantees nothing about its execution, timing, fees or refunds. 1Click's fees are non-refundable under its terms. On-chain payments are final and carry smart-contract and key-management risk. Settled's only guarantee is the sentence at the top of this file, with its stated limits.
 
@@ -109,9 +125,9 @@ From [`docs/probe-results.md`](docs/probe-results.md), run on 2026-11-01 with no
 
 | Date | What | Amount | Transaction |
 | --- | --- | --- | --- |
-| 2026-11-01 | Nothing spent on chain yet | USD 0 | none |
+| 2026-11-01 | Testnet accounts, deploys and the golden-path run, paid with free faucet testnet NEAR | USD 0 | [root account](https://testnet.nearblocks.io/address/settled-demo-53d4c7c8.testnet) |
 
-Budget for the mainnet run: about USD 25 (deploys, storage, gas, up to three swaps of about USD 2). Every real-money transaction will be listed here with its explorer link.
+No real money has been spent. A future mainnet check would need about USD 5 for one swap plus storage; the full mainnet demo in the original plan was about USD 25.
 
 ## Alternatives
 
@@ -133,7 +149,8 @@ Settled's narrow claim: a NEAR contract is the sender of the 1Click deposit, so 
 | Contract sandbox tests: duplicate key, concurrent same key, fake token, wrong token, expired deadline, malformed msg, insufficient gas, forward failed and reused, unauthorised resolve, terminal outcome, keys namespaced by sender, and more | `cargo test -p settled --test sandbox` | 16 |
 | SDK (mapper, preflight, pay, units, quote retention), mock-1click, CLI, MCP | `pnpm test` | 53 |
 | Sandbox golden path with mock 1Click | `pnpm e2e:sandbox` | 1 run |
-| Web: smoke, console, golden, receipt empty state, accessibility at 1280 and 375 px (axe, no horizontal scroll, layout shift under 0.01) | `pnpm e2e` | 6; passed 10 of 10 repeats (60/60) |
+| Testnet golden path with mock 1Click | `pnpm e2e:testnet` | 1 run (needs `pnpm testnet:setup`) |
+| Web: smoke, console, golden, receipt empty state, accessibility at 1280 and 375 px (axe, no horizontal scroll, layout shift under 0.01) | `pnpm e2e` | 6; passed 10 of 10 repeats (60/60) on the stub, and 6 of 6 with `E2E_LIVE=1` against testnet |
 | Secrets, README, fixtures | `pnpm check:secrets`, `pnpm check:readme`, `pnpm fixtures:check` | |
 
 ## Build notes
@@ -147,9 +164,9 @@ Settled's narrow claim: a NEAR contract is the sender of the 1Click deposit, so 
 All code, tests, scripts and docs in this repository were written by Claude (Anthropic, model `claude-opus-5-5`) in Claude Code sessions on 2026-10-31 and 2026-11-01, directed by Ashwin Goyal. The product spec was produced beforehand by a planning pipeline (HackForge) that also used Claude models. This covers:
 
 - `contracts/settled/` (contract, unit tests, sandbox tests) and `contracts/mock-ft/`
-- `packages/sdk/`, `packages/mock-1click/`, `packages/cli/`, `packages/mcp/`, `packages/e2e-sandbox/`
+- `packages/sdk/`, `packages/mock-1click/`, `packages/cli/`, `packages/mcp/`, `packages/e2e-sandbox/` (sandbox and testnet runners, testnet setup)
 - `apps/web/` (Next.js app, RPC stub, Playwright tests)
-- `scripts/`, `fixtures/run-sandbox-001.json` (generated by `pnpm e2e:sandbox`), `fixtures/issue-360-failed.json` (transcribed from the public issue), `docs/`, this README, `CLAUDE.md`
+- `scripts/`, `fixtures/run-sandbox-001.json` and `fixtures/run-testnet-001.json` (generated by the runs), `fixtures/issue-360-failed.json` (transcribed from the public issue), `deploy/testnet.json`, `docs/`, this README, `CLAUDE.md`
 
 Human review of the generated code before submission: pending.
 

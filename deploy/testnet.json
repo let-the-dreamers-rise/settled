@@ -1,0 +1,16 @@
+{
+  "network": "testnet",
+  "rpc": "https://test.rpc.fastnear.com",
+  "explorer": "https://testnet.nearblocks.io",
+  "note": "Testnet demo accounts. The token is mock-ft (test USDC, open mint, no value). 1Click is MOCK.",
+  "root": "settled-demo-53d4c7c8.testnet",
+  "accounts": {
+    "settled": "settled.settled-demo-53d4c7c8.testnet",
+    "usdc": "usdc.settled-demo-53d4c7c8.testnet",
+    "payer": "payer.settled-demo-53d4c7c8.testnet",
+    "watcher": "watcher.settled-demo-53d4c7c8.testnet",
+    "deposit-a": "deposit-a.settled-demo-53d4c7c8.testnet",
+    "deposit-b": "deposit-b.settled-demo-53d4c7c8.testnet",
+    "deposit-c": "deposit-c.settled-demo-53d4c7c8.testnet"
+  }
+}

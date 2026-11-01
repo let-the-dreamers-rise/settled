@@ -38,6 +38,11 @@ Global: `mode-badge demo-banner demo-banner-source demo-banner-tx-link nav-conso
 ## Test commands
 `pnpm build:contracts` | `cargo test -p settled` | `pnpm test` | `pnpm e2e:sandbox` | `pnpm e2e` | `pnpm check:secrets` | `pnpm check:readme` | `pnpm fixtures:check` | `pnpm probe:quote` (network, no funds, no credentials).
 
+## Deployment (decided 2026-11-01: no funds, so no mainnet)
+- The public demo runs on NEAR testnet: contract `settled.settled-demo-53d4c7c8.testnet`, test token `usdc.settled-demo-53d4c7c8.testnet` (mock-ft). Ids in `deploy/testnet.json`; keys in `~/.settled-testnet/credentials.json`, never in the repo.
+- 1Click is MOCK on testnet (it has no testnet). Contract-as-sender acceptance by 1Click is untested; say so wherever it matters.
+- RPC: `https://test.rpc.fastnear.com` (rpc.testnet.near.org answers 429 deprecated).
+
 ## Build notes
 - Build and test in Linux or WSL2 (Ubuntu 24.04). Rust 1.86.0 is pinned (`rust-toolchain.toml`); `near-sdk` and `near-contract-standards` are pinned to `=5.6.0` because later 5.x needs a newer rustc.
 - The wasm must be MVP-only for the sandbox/protocol: `scripts/build-contracts.sh` builds with `-C target-cpu=mvp` and runs `wasm-opt` 116 (`cargo install wasm-opt --version 0.116.1 --locked`) with `--signext-lowering --strip-target-features`, then validates with `--mvp-features`. apt's binaryen is too old.

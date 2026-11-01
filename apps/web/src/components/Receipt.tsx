@@ -118,9 +118,15 @@ function ReceiptBody({ sender, recordKey }: { sender: string; recordKey: string 
       <div className="links small">
         <a data-testid="receipt-link-record" href={`${EXPLORER}/address/${CONTRACT_ID}`}>Record: contract {CONTRACT_ID} in the explorer</a>
         <a data-testid="receipt-link-deposit" href={`${EXPLORER}/address/${r.deposit_address}`}>Deposit address {r.deposit_address}</a>
-        <a data-testid="receipt-link-destination" href={`${INTENTS_EXPLORER}/?depositAddress=${encodeURIComponent(r.deposit_address)}`}>
-          Destination tx: {dest ?? "not reported"} (1Click explorer for this deposit)
-        </a>
+        {ev.mock ? (
+          <a data-testid="receipt-link-destination" href={`${EXPLORER}/address/${r.deposit_address}`}>
+            Destination tx: {dest ?? "not reported"} (MOCK 1Click: no real swap happened; link shows the deposit account)
+          </a>
+        ) : (
+          <a data-testid="receipt-link-destination" href={`${INTENTS_EXPLORER}/?depositAddress=${encodeURIComponent(r.deposit_address)}`}>
+            Destination tx: {dest ?? "not reported"} (1Click explorer for this deposit)
+          </a>
+        )}
         <a data-testid="receipt-link-quote-hash" href="#quote-hash">Quote hash (recorded, not verified on chain)</a>
       </div>
       <div className="row" style={{ marginTop: 16 }}>

@@ -6,6 +6,8 @@
   "scripts": {
     "e2e": "tsx src/run.ts",
     "pay": "tsx src/run.ts --only-pay",
+    "testnet:setup": "tsx src/testnet-setup.ts",
+    "testnet": "tsx src/run-testnet.ts",
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
@@ -13,7 +15,8 @@
     "@settled/mock-1click": "workspace:*",
     "@settled/mcp": "workspace:*",
     "@settled/cli": "workspace:*",
-    "near-workspaces": "5.0.0"
+    "near-workspaces": "5.0.0",
+    "near-api-js": "5.1.1"
   },
   "devDependencies": {
     "typescript": "5.8.3",

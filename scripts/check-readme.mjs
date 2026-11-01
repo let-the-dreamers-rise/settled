@@ -37,7 +37,7 @@ if (/\p{Extended_Pictographic}/u.test(md)) errors.push("README contains an emoji
 
 const placeholder = md.includes("[PLACEHOLDER: contract account id]");
 if (placeholder && !draft) errors.push("contract id is still a placeholder (M6 mainnet deploy not done)");
-if (!placeholder && !/https:\/\/nearblocks\.io\/address\/[a-z0-9._-]+\.near/.test(md)) {
+if (!placeholder && !/https:\/\/(testnet\.)?nearblocks\.io\/address\/[a-z0-9._-]+\.(near|testnet)\b/.test(md)) {
   errors.push("README must link the contract on nearblocks.io");
 }
 

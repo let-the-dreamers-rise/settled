@@ -23,10 +23,10 @@ export interface SandboxEnv {
   close(): Promise<void>;
 }
 
-/** Whole NEAR to a yoctoNEAR string. */
-const near = (n: number | string): string => {
+/** Whole NEAR to yoctoNEAR. */
+const near = (n: number | string): bigint => {
   const [w, f = ""] = String(n).split(".");
-  return BigInt(w! + f.padEnd(24, "0")).toString();
+  return BigInt(w! + f.padEnd(24, "0"));
 };
 
 const repo = resolve(import.meta.dirname, "../../..");
