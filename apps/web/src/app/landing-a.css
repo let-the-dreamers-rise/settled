@@ -23,6 +23,12 @@
   transition-delay: calc(var(--i) * 45ms);
 }
 .js .reveal.in .rw > span { transform: none; }
+/* The hero headline animates on load in CSS alone, so a slow JS load never hides it. */
+.js .hero .reveal .rw > span {
+  transform: none; transition: none;
+  animation: word-up var(--slow) var(--ease) both; animation-delay: calc(120ms + var(--i) * 45ms);
+}
+@keyframes word-up { from { transform: translateY(110%); } to { transform: none; } }
 
 /* Staggered entrances: stubs dealt onto the desk. */
 .js .stagger > * {

@@ -182,7 +182,7 @@
 .js .perf.in { transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .js .reveal .rw > span, .js .stagger > *, .js .perf { transform: none !important; opacity: 1 !important; transition: none !important; }
+  .js .reveal .rw > span, .js .stagger > *, .js .perf { transform: none !important; opacity: 1 !important; transition: none !important; animation: none !important; }
   .js .roll:not(.in) .roll-strip, .roll-strip { transform: translateY(calc(var(--d) * -1em)) !important; transition: none !important; }
   .proof-track { animation: none !important; width: auto; flex-wrap: wrap; }
   .proof-list { flex-wrap: wrap; }

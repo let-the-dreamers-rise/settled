@@ -15,3 +15,5 @@ test-results/
 apps/web/src/fixtures/
 apps/web/test-results/
 apps/web/playwright-report/
+.vercel
+.env*.local
