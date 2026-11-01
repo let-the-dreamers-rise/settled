@@ -1,0 +1,21 @@
+[package]
+name = "settled"
+version = "0.1.0"
+edition = "2021"
+rust-version.workspace = true
+license = "MIT"
+description = "NEAR contract: a retry with a repeated key is refused and refunded in the same transaction; new keys are forwarded to a 1Click deposit address."
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+near-sdk = { workspace = true }
+near-contract-standards = { workspace = true }
+
+[dev-dependencies]
+near-sdk = { workspace = true, features = ["unit-testing"] }
+near-workspaces = { version = "0.15.0", features = ["unstable"] }
+tokio = { version = "1", features = ["full"] }
+serde_json = "1"
+anyhow = "1"

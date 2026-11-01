@@ -1,0 +1,4 @@
+record_borsh=07000000000000000a000000616c6963652e6e6561720c000000696e766f6963652d3434313709000000757364632e6e65617280841e0000000000000000000000000004000000616231320c0000006465706f7369742e6e6561720068e5cf8b0100000102010000001864e5cf8b01000001f469e5cf8b01000001140000007b22737461747573223a2253554343455353227d
+record_json={"number":7,"sender":"alice.near","key":"invoice-4417","token":"usdc.near","amount":"2000000","quote_hash":"ab12","deposit_address":"deposit.near","deadline_ms":1700000000000,"forward":"FORWARDED","outcome":"SETTLED","refused_count":1,"created_at_ms":1699999999000,"resolved_at_ms":1700000000500,"evidence":"{\"status\":\"SUCCESS\"}"}
+outcomes="PENDING","INCOMPLETE","SETTLED","REFUNDED","FAILED_NO_REFUND"
+stats_json={"records_created":1,"refusals":1,"volume":[{"token":"usdc.near","forwarded":"2000000"}]}
