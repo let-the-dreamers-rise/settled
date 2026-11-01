@@ -12,3 +12,5 @@ export const RPC_URL = process.env.NEXT_PUBLIC_NEAR_RPC_URL || DEFAULT_RPC[run.n
 export const CONTRACT_ID = process.env.NEXT_PUBLIC_SETTLED_CONTRACT_ID || run.contract_id;
 export const EXPLORER = process.env.NEXT_PUBLIC_EXPLORER_BASE || run.explorer || "https://testnet.nearblocks.io";
 export const INTENTS_EXPLORER = "https://explorer.near-intents.org";
+/** Set once the repository is public; until then the site says so instead of linking. */
+export const REPO_URL = process.env.NEXT_PUBLIC_REPO_URL || "";

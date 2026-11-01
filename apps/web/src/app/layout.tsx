@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Newsreader } from "next/font/google";
 import Link from "next/link";
+import { InView } from "@/components/landing/InView";
 import { DEMO_MODE } from "@/lib/config";
 import { run, txLink } from "@/lib/fixture";
 import "./globals.css";
@@ -30,7 +31,12 @@ function DemoBanner() {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${serif.variable} ${mono.variable}`}>
+    // The inline script marks JS as available before first paint, so reveal animations hide
+    // content only when they can show it again; without JS everything renders visible.
+    <html lang="en" className={`${serif.variable} ${mono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body>
         <header className="site-header">
           <div className="wrap">
@@ -45,6 +51,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {DEMO_MODE ? <DemoBanner /> : null}
         <main className="wrap">{children}</main>
         <footer className="site-footer">
+          <div className="wrap">
+            <InView className="perf" aria-hidden="true" />
+          </div>
           <div className="wrap small">
             This site reads chain only. It never calls 1Click and never holds a payer key. Open source, MIT.
           </div>

@@ -122,7 +122,7 @@ for (const width of [1280, 375]) {
       await page.waitForLoadState("networkidle");
       const results = await new AxeBuilder({ page }).analyze();
       const bad = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
-      expect(bad.map((v) => `${path}: ${v.id} ${v.help}`)).toEqual([]);
+      expect(bad.map((v) => `${path}: ${v.id} ${v.help} [${v.nodes.slice(0, 6).map((n) => n.target.join(" ")).join(" | ")}]`)).toEqual([]);
       await noHorizontalScroll(page);
       const { cls, shifted } = await page.evaluate(() => {
         const w = window as unknown as { __cls: number; __shifted: string[] };

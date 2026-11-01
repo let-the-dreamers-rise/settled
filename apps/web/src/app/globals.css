@@ -31,7 +31,7 @@ button, a, [tabindex] { outline: none; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 2px; }
 
 .mono { font-family: var(--font-mono), ui-monospace, monospace; font-size: 14px; }
-.wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
 
 /* Header and banner */
 .site-header { border-bottom: 1px solid var(--rule); }
